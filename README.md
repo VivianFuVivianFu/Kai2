@@ -1,9 +1,11 @@
 # sales-process-automation
+
 Sales Process Automation using Python is a complete, modular automation solution designed to streamline lead generation, personalized outreach, and basic lead tracking for marketing and business development teams.
 
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 🚀 Objectives
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 - Automate personalized email creation for potential clients using Jinja2 templating.
  
@@ -14,9 +16,9 @@ Sales Process Automation using Python is a complete, modular automation solution
 - Enhance scalability and reusability for future CRM and marketing integrations.
 
 
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ✨ Features
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -  Extract contact details from Excel files.
  
 -  Generate personalized email content with company and contact info.
@@ -31,9 +33,9 @@ Sales Process Automation using Python is a complete, modular automation solution
 
 
 
-
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 🛠️ Tech Stack
-
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 - **Python** (Core Language)
   
 - **Pandas** (Data Processing)
@@ -47,9 +49,9 @@ Sales Process Automation using Python is a complete, modular automation solution
 - **Excel (.xlsx)** (Data Source)
 
 
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 📁 Project Structure
-
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 sales-process-automation/
 
@@ -78,10 +80,10 @@ sales-process-automation/
 
 
 
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ✩ How to Run
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Setup
 
 Install the required packages:
@@ -89,9 +91,9 @@ Install the required packages:
 pip install pandas beautifulsoup4 selenium openpyxl jinja2 fake-useragent python-dotenv
 
 
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ✨ Execution Order:
-
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Run linkedin_scraper.py or use dummy Excel file
 
 Run generate_emails.py to create HTML emails
@@ -104,9 +106,10 @@ Run track_leads.py to simulate and categorize lead response analytics
 
 
 
-📈 Future Scope
- 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+📈 Future Scope 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 This Python-based automation can be extended into an AI/ML-powered system. Future features may include:
 
 Lead Scoring using ML: Score leads based on behavior, industry, engagement
@@ -123,18 +126,28 @@ These upgrades can turn this into a complete AI-driven sales assistant platform 
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+🧠 Skills Demonstrated
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Python scripting and modular coding  
+- Web scraping using BeautifulSoup and requests  
+- Email automation using smtplib and email.message  
+- Secure credential management via `.env`  
+- Personalized email generation using HTML templates  
+- Data analytics with pandas  
+- Lead categorization based on engagement  
+- GitHub documentation and video demo submission
 
 
- 💡 Inspiration
+
+
  
-This project was built to streamline repetitive manual sales communication, reduce human errors, and boost conversion with personalized messaging — ideal for startups, marketers, and sales professionals.
 
 
-
-
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 👩‍💻 Developed By
-
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Krisha Baldha
 
 B.Tech IT Engineering |  Python Enthusiast
