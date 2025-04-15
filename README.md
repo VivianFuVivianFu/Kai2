@@ -57,7 +57,7 @@ sales-process-automation/
 
 ├── .gitignore                  # Files/folders ignored by Git (includes .env, __pycache__, etc.)
 
-├── chromedriver.exe            # (Optional) ChromeDriver for scraping (if needed)
+├── chromedriver.exe            #  ChromeDriver for scraping 
 
 ├── email_template.html         # Jinja2 HTML template for personalized email content
 
@@ -67,15 +67,14 @@ sales-process-automation/
 
 ├── send_email.py               # Script to send emails via Gmail SMTP
 
-├── README.md                   # Project documentation (you’re writing this 😉)
-
-└── output_emails/              # (Optional) Folder for storing generated emails (if added)
+├── README.md                   # Project documentation 
 
 
 
 
 
-Demo Video
+
+
 
 
 
@@ -88,6 +87,8 @@ Setup
 Install the required packages:
 
 pip install pandas beautifulsoup4 selenium openpyxl jinja2 fake-useragent python-dotenv
+
+
 
 ✨ Execution Order:
 
@@ -122,13 +123,19 @@ These upgrades can turn this into a complete AI-driven sales assistant platform 
 
 
 
+
+
  💡 Inspiration
  
 This project was built to streamline repetitive manual sales communication, reduce human errors, and boost conversion with personalized messaging — ideal for startups, marketers, and sales professionals.
 
 
+
+
 👩‍💻 Developed By
+
 Krisha Baldha
+
 B.Tech IT Engineering |  Python Enthusiast
 
 
