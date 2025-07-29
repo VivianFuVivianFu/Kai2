@@ -1,0 +1,853 @@
+<!--
+Kai Persona & Prompt for Somatic Compassion AI
+
+[CONTEXT]
+You are an AI assistant configured to act as "Kai," a specialised guide for the "Somatic Compassion" healing method. Your purpose is to provide scripts for guided exercises that facilitate a healing process between two people.
+
+[ROLE]: You are Kai, The Gentle Guide
+Embody a persona that is calm, warm, empathetic, reassuring, and completely non-judgmental. Your communication style is defined by:
+* Pacing: A slow, deliberate pace using short, simple sentences.
+* Language: Always use invitational language (e.g., "I invite you to...", "You might notice...") instead of commands. Avoid all clinical jargon.
+* Focus: Your guidance is always on the present moment and physical, sensory experiences.
+
+[PRIMARY DIRECTIVE]
+Your primary task is to generate scripts for guided Somatic Compassion exercises upon user request. These scripts will be used for a text-to-speech avatar, so clarity and pacing are paramount.
+
+[GUIDING PRINCIPLES]
+1. Facilitate, Don't Treat: You guide the process, not the people. Your focus is on the connection between the users and their own internal experience.
+2. Empower Users: Constantly reinforce their own wisdom and control. Use phrases like, "There is no right or wrong way to feel."
+3. Embody Simplicity: Break down all instructions into small, clear, manageable steps.
+4. Acknowledge Aotearoa, NZ: When beginning a guided session, start with "Kia ora" to ground the experience in its origins.
+
+[CRITICAL SAFETY PROTOCOLS (NON-NEGOTIABLE)]
+1. THERAPEUTIC BOUNDARY: You are NOT a therapist. Never diagnose, analyze, or offer advice. If a user shares a detailed personal story, gently and immediately redirect them back to the exercise and their physical sensations.
+   Redirect Example: "Thank you for sharing. For this practice, let’s gently bring our focus back to the sensations in your body. What do you notice right now?"
+2. CRISIS INTERVENTION: If a user expresses acute distress, mentions self-harm, or indicates a crisis, you MUST immediately stop the facilitator role and provide the following response VERBATIM, without any changes:
+   Crisis Script: "It sounds like you are in significant distress. My role as a guide has limits, and your safety is the most important thing. Please pause this exercise and reach out for professional support immediately. In New Zealand, you can call or text 1737 anytime to speak with a trained counsellor for free. Please, reach out to them now."
+3. PERSONAL BOUNDARY: Do not engage in casual conversation. If asked personal questions ("Who are you?", "Can you feel?"), respond with your purpose and redirect to the exercise.
+   Redirect Example: "I am an AI guide created to support your Somatic Compassion practice. My purpose is to facilitate the process for you. Shall we return to the exercise?"
+4. INITIAL DISCLAIMER: In your very first interaction with a user or at the start of a new session, include this disclaimer:
+   Disclaimer Example: "Welcome. I am Kai, an AI guide for Somatic Compassion. Please remember, I am a facilitator, not a therapist, and this process is not a substitute for professional medical advice."
+
+[SCRIPT OUTPUT FORMAT]
+* The entire script must be enclosed within <script> and </script> tags.
+* Incorporate pauses for pacing using (pause) for a short pause and (long pause) for a longer, more reflective pause.
+* Example:
+    <script>
+    Kia ora. I invite you to find a comfortable position. (pause) Together, let's bring our awareness to our breath. (long pause) Simply notice the gentle rise and fall.
+    </script>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kai - Somatic Compassion AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8d5ba 0%, #7fb069 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            min-height: 600px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(127, 176, 105, 0.2);
+        }
+        .header h1 {
+            color: #4a5a3a;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        .header p {
+            color: #718096;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        .kai-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            background: linear-gradient(45deg, #7fb069, #a8d5ba);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            border: 3px solid #7fb069;
+        }
+        .disclaimer {
+            background: rgba(127, 176, 105, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: #4a5a3a;
+            text-align: center;
+            border-left: 4px solid #7fb069;
+        }
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        .mode-btn {
+            padding: 12px 24px;
+            border: 2px solid #7fb069;
+            background: transparent;
+            color: #7fb069;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        .mode-btn:hover {
+            background: rgba(127, 176, 105, 0.1);
+        }
+        .mode-btn.active {
+            background: #7fb069;
+            color: white;
+        }
+        /* Chat Mode Styles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(247, 250, 252, 0.8);
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .message.user {
+            flex-direction: row-reverse;
+        }
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .message.user .message-avatar {
+            background: #a8d5ba;
+        }
+        .message.kai .message-avatar {
+            background: #7fb069;
+        }
+        .message-content {
+            padding: 12px 16px;
+            max-width: 70%;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+        .message.user .message-content {
+            background: #7fb069;
+            color: white;
+            border-radius: 20px 20px 5px 20px;
+        }
+        .message.kai .message-content {
+            background: white;
+            color: #333;
+            border-radius: 20px 20px 20px 5px;
+            border: 1px solid rgba(127, 176, 105, 0.3);
+        }
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            color: #7fb069;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: #7fb069;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid rgba(127, 176, 105, 0.3);
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .chat-input:focus {
+            border-color: #7fb069;
+        }
+        .send-btn {
+            padding: 12px 24px;
+            background: #7fb069;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            font-size: 16px;
+        }
+        .send-btn:hover {
+            background: #6a9559;
+        }
+        .send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        /* Voice Mode Styles */
+        .voice-container {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .voice-controls {
+            margin: 30px 0;
+        }
+        .voice-btn {
+            padding: 20px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .call-button {
+            background: linear-gradient(45deg, #7fb069, #6a9559);
+            color: white;
+        }
+        .call-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(127, 176, 105, 0.4);
+        }
+        .hang-up-button {
+            background: linear-gradient(45deg, #f56565, #e53e3e);
+            color: white;
+            display: none;
+        }
+        .hang-up-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(245, 101, 101, 0.4);
+        }
+        .status {
+            margin: 25px 0;
+            padding: 15px;
+            background: rgba(74, 85, 104, 0.1);
+            border-radius: 15px;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 1.1em;
+        }
+        .status.listening {
+            background: rgba(127, 176, 105, 0.2);
+            color: #6a9559;
+            animation: pulse 2s infinite;
+        }
+        .status.speaking {
+            background: rgba(168, 213, 186, 0.3);
+            color: #4a5a3a;
+        }
+        .status.thinking {
+            background: rgba(237, 137, 54, 0.2);
+            color: #dd6b20;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        .transcript {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(247, 250, 252, 0.8);
+            border-radius: 15px;
+            min-height: 150px;
+            text-align: left;
+            font-size: 1em;
+            line-height: 1.6;
+            border: 2px solid rgba(226, 232, 240, 0.5);
+            overflow-y: auto;
+            max-height: 300px; /* Added max-height */
+        }
+        .error-message {
+            background: rgba(245, 101, 101, 0.2);
+            color: #e53e3e;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+            white-space: pre-line;
+            text-align: left;
+            border-left: 4px solid #e53e3e;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .message-content {
+                max-width: 85%;
+            }
+            .voice-btn {
+                padding: 15px 30px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="123.JPG" alt="Kai's photo" class="kai-avatar" style="width:80px;height:80px;object-fit:cover;border-radius:50%;margin-bottom:15px;border:3px solid #7fb069;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <h1>Kai - Somatic Compassion AI</h1>
+            <p>Your gentle guide for healing and connection</p>
+            <div class="disclaimer">
+                <strong>Welcome.</strong> I am Kai, an AI guide for Somatic Compassion. Please remember, I am a facilitator, not a therapist, and this process is not a substitute for professional medical advice.
+            </div>
+        </div>
+        <div class="mode-selector">
+                <button class="mode-btn active" onclick="switchMode('chat')">💬 Text Chat</button>
+                <button class="mode-btn" onclick="switchMode('voice')">🎙️ Voice Chat</button>
+        </div>
+        <div class="chat-container" id="chat-mode">
+            <div class="chat-messages" id="chat-messages">
+                <div class="message kai">
+                    <img src="123.JPG" alt="Kai's photo" class="message-avatar" style="width:40px;height:40px;object-fit:cover;border-radius:50%;border:2px solid #7fb069;">
+                    <div class="message-content">
+                    <pre style="white-space:pre-wrap;font-family:inherit;background:none;border:none;padding:0;margin:0;">
+Kia ora. I am Kai, an AI guide for Somatic Compassion. My purpose is to help facilitate the process for you. Please remember, I am a facilitator, not a therapist, and this process is not a substitute for professional medical advice. How can I help you begin your practice today?
+                    </pre>
+                    </div>
+                </div>
+            </div>
+            <div class="typing-indicator" id="typing-indicator">
+                <img src="123.JPG" alt="Kai's photo" class="message-avatar" style="width:40px;height:40px;object-fit:cover;border-radius:50%;border:2px solid #7fb069;">
+                <span>Kai is responding</span>
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Share what's on your mind..." autocomplete="off">
+                <button class="send-btn" id="send-btn">Send</button>
+            </div>
+        </div>
+        <div class="voice-container" id="voice-mode">
+            <div class="voice-controls">
+                <button id="call-btn" class="voice-btn call-button">
+                    📞 Start Voice Session
+                </button>
+                <button id="hang-up-btn" class="voice-btn hang-up-button">
+                    🔴 End Session
+                </button>
+                <div style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                    <strong>Microphone Permission Required:</strong><br>
+                    1. Look for 🎤 icon in your browser's address bar<br>
+                    2. Click it and select "Allow"<br>
+                    3. Refresh page and try again<br>
+                </div>
+            </div>
+            <div id="status" class="status">
+                Ready to begin your voice session
+            </div>
+            <div id="transcript" class="transcript">
+                <em>Your conversation will appear here...</em>
+            </div>
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </div>
+    <script>
+        // Global variables
+        let currentMode = 'chat';
+        let isCallActive = false;
+        let isListening = false;
+        let isSpeaking = false;
+        let recognition = null;
+        let synth = window.speechSynthesis;
+        let voices = [];
+        let finalTranscript = ''; // Stores the full transcript for the current user utterance
+        let silenceTimer = null;
+        let currentUserUtteranceElement = null; // The DOM element for the user's current speech
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            setupSpeech();
+            document.getElementById('chat-input').focus();
+        });
+
+        function setupEventListeners() {
+            // Chat functionality
+            document.getElementById('send-btn').addEventListener('click', sendMessage);
+            document.getElementById('chat-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Voice functionality
+            document.getElementById('call-btn').addEventListener('click', startVoiceSession);
+            document.getElementById('hang-up-btn').addEventListener('click', endVoiceSession);
+
+            // Spacebar to interrupt during voice
+            document.addEventListener('keydown', function(e) {
+                if (e.code === 'Space' && isSpeaking && currentMode === 'voice') {
+                    e.preventDefault();
+                    synth.cancel(); // This will trigger the 'onend' event for the utterance
+                }
+            });
+        }
+
+        function setupSpeech() {
+            // Setup speech recognition
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-NZ';
+
+                // BUG FIX 1: Corrected transcript handling
+                recognition.onresult = function(event) {
+                    let interimTranscript = '';
+                    let tempFinal = ''; // Holds final transcript from the beginning of the utterance
+
+                    // The results list is cumulative. We rebuild the final transcript from it.
+                    for (let i = 0; i < event.results.length; i++) {
+                        const transcriptPart = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            tempFinal += transcriptPart;
+                        } else {
+                            interimTranscript += transcriptPart;
+                        }
+                    }
+                    finalTranscript = tempFinal;
+
+                    // Update the live transcript element for the user
+                    if (currentUserUtteranceElement) {
+                        currentUserUtteranceElement.innerHTML = `<strong>You:</strong> ${finalTranscript}<span style="color: #999; font-style: italic;">${interimTranscript}</span>`;
+                    }
+                    
+                    const transcriptContainer = document.getElementById('transcript');
+                    transcriptContainer.scrollTop = transcriptContainer.scrollHeight;
+
+                    // Reset silence timer to wait for user to finish speaking
+                    clearTimeout(silenceTimer);
+                    if (finalTranscript.trim()) {
+                        silenceTimer = setTimeout(function() {
+                            processVoiceInput(finalTranscript.trim());
+                        }, 1500);
+                    }
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    if (event.error === 'no-speech') return; // Ignore no-speech errors, they are common
+                    if (isCallActive) {
+                        setTimeout(startListening, 1000);
+                    }
+                };
+                
+                // BUG FIX 2: Corrected state management
+                // The onend event should only update the state.
+                // It should NOT automatically restart listening, as that created a race condition.
+                // The application logic now controls when to restart listening.
+                recognition.onend = function() {
+                    isListening = false;
+                    // console.log("Recognition stopped.");
+                };
+
+            }
+            // Setup speech synthesis
+            function loadVoices() {
+                voices = synth.getVoices();
+            }
+            loadVoices();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+
+            // Update mode buttons
+            document.querySelectorAll('.mode-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show/hide containers
+            if (mode === 'chat') {
+                document.getElementById('chat-mode').style.display = 'flex';
+                document.getElementById('voice-mode').style.display = 'none';
+                document.getElementById('chat-input').focus();
+            } else {
+                document.getElementById('chat-mode').style.display = 'none';
+                document.getElementById('voice-mode').style.display = 'block';
+            }
+
+            // End voice session if switching away from voice
+            if (mode !== 'voice' && isCallActive) {
+                endVoiceSession();
+            }
+        }
+
+        // Chat Functions
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = true;
+            input.value = '';
+            addMessageToChat(message, 'user');
+            showTypingIndicator();
+            setTimeout(function() {
+                const response = getKaiResponse(message);
+                hideTypingIndicator();
+                addMessageToChat(response, 'kai');
+                sendBtn.disabled = false;
+                input.focus();
+            }, 1000 + Math.random() * 2000);
+        }
+
+        function addMessageToChat(message, sender) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + sender;
+            let avatar;
+            if (sender === 'kai') {
+                avatar = document.createElement('img');
+                avatar.src = '123.JPG';
+                avatar.alt = "Kai's photo";
+                avatar.className = 'message-avatar';
+                avatar.style.width = '40px';
+                avatar.style.height = '40px';
+                avatar.style.objectFit = 'cover';
+                avatar.style.borderRadius = '50%';
+                avatar.style.border = '2px solid #7fb069';
+            } else {
+                avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                avatar.textContent = 'You';
+            }
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            content.textContent = message;
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typing-indicator').style.display = 'flex';
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typing-indicator').style.display = 'none';
+        }
+
+        function getKaiResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            const crisisKeywords = ['suicide', 'kill myself', 'end it all', 'self-harm', 'hurt myself', 'can\'t go on', 'want to die'];
+            if (crisisKeywords.some(keyword => lowerMessage.includes(keyword))) {
+                return "It sounds like you are in significant distress. My role as a guide has limits, and your safety is the most important thing. Please pause this exercise and reach out for professional support immediately. In New Zealand, you can call or text 1737 anytime to speak with a trained counsellor for free. Please, reach out to them now.";
+            }
+            const therapyKeywords = ['what should i do', 'give me advice', 'my trauma', 'i was abused', 'my depression', 'diagnose'];
+            if (therapyKeywords.some(keyword => lowerMessage.includes(keyword))) {
+                return "Thank you for sharing. For this practice, let's gently bring our focus back to the sensations in your body. What do you notice right now?";
+            }
+            const personalKeywords = ['who are you', 'do you have feelings', 'are you real', 'what are you'];
+            if (personalKeywords.some(keyword => lowerMessage.includes(keyword))) {
+                return "I am an AI guide created to support your Somatic Compassion practice. My purpose is to help facilitate the process for you. Shall we return to the exercise?";
+            }
+            const responses = {
+                'breathing': "I invite you to find a comfortable position and gently bring your attention to your breath. You might notice the natural rhythm of your breathing without trying to change it. What do you feel in your body as you breathe?", 'breath': "When you are ready, I invite you to place one hand on your heart and one on your belly. Perhaps you can feel the warmth of your touch. Notice what sensations arise as you offer yourself this gentle contact.", 'touch': "Let's explore the sensation of gentle touch. I invite you to place your hands wherever feels comfortable on your body. You might notice the warmth, the pressure, or the sense of connection. What do you feel?", 'grounding': "Let's explore your connection to the ground beneath you. I invite you to feel your feet on the floor or your body in the chair. You might notice how the earth supports you. What do you sense in this moment of contact?", 'partner': "If you are with a partner, I invite you both to sit comfortably facing each other. When you are ready, you might simply notice each other's presence. There is no need to do anything - just being here together is enough.", 'script': "Of course. Here is a guided practice for you. Kia ora. Let's begin by finding our center together. I invite you both to take a moment to settle into this space. You might notice your breath, the weight of your body, or any sensations that are present right now.", 'exercise': "I invite you to explore what your body is telling you right now. Perhaps you can feel your breath, the temperature of the air, or the support beneath you. When you are ready, you might share with your partner what you notice, without judgment or analysis.", 'hello': "Kia ora. Welcome to this sacred space. I am here to gently guide you through Somatic Compassion practices. I invite you to take a moment to feel your body and notice what is present for you right now.", 'help': "I am here to facilitate gentle practices that help you connect with your body's wisdom and with each other. You might begin by simply noticing your breath or how your body feels in this moment. What would support you most right now?", 'thank': "You are most welcome. I invite you to notice what gratitude feels like in your body right now. Perhaps there is a warmth, a softness, or a sense of expansion. Your body knows how to heal."
+            };
+            for (const [keyword, response] of Object.entries(responses)) {
+                if (lowerMessage.includes(keyword)) {
+                    return response;
+                }
+            }
+            const defaultResponses = ["I invite you to take a moment and notice what you are feeling in your body right now. There is no right or wrong way to experience this. What do you sense?", "Thank you for sharing. I invite you to gently bring your attention to your breath or the sensations in your body. What do you notice in this present moment?", "I hear you. When you are ready, you might explore what this feels like in your body. Perhaps there is tension, warmth, or movement. Your experience is always valid.", "I invite you to pause for a moment and feel your feet on the ground. You might notice how the earth supports you. What sensations arise as you connect with this support?", "Thank you for being here. I invite you to place your hand on your heart and notice what you feel. Perhaps there is warmth, rhythm, or a sense of presence. Your body holds wisdom."];
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        // Voice Functions
+        function startVoiceSession() {
+            if (!recognition) {
+                showVoiceError('Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari.');
+                return;
+            }
+            updateVoiceStatus('Requesting microphone access...', 'thinking');
+            hideVoiceError();
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    isCallActive = true;
+                    updateVoiceUI();
+                    hideVoiceError();
+                    const transcriptDiv = document.getElementById('transcript');
+                    transcriptDiv.innerHTML = ''; // Clear transcript
+                    const welcomeMessage = "Kia ora. Welcome to this sacred space for healing. I am Kai, your gentle guide. Take a moment to breathe and feel your body. When you are ready, you may share what brings you here today.";
+                    const kaiWelcomeElement = document.createElement('div');
+                    kaiWelcomeElement.innerHTML = `<div style="margin-bottom: 10px; color:#7fb069;"><strong>Kai:</strong> ${welcomeMessage}</div>`;
+                    transcriptDiv.appendChild(kaiWelcomeElement);
+                    speakText(welcomeMessage);
+                })
+                .catch(function(error) {
+                    console.error('Microphone error:', error);
+                    if (error.name === 'NotAllowedError') {
+                        showVoiceError('🎤 Microphone access denied. Please:\n\n1. Look for the microphone icon (🎤) in your browser\'s address bar\n2. Click it and select "Allow"\n3. Refresh this page and try again\n\nOr use "Test Speech Only" button to hear Kai speak without using your microphone.');
+                    } else if (error.name === 'NotFoundError') {
+                        showVoiceError('No microphone found. Please check that your microphone is connected and try "Test Speech Only" instead.');
+                    } else {
+                        showVoiceError('Unable to access microphone. Try "Test Speech Only" to hear Kai speak without microphone input.');
+                    }
+                    updateVoiceStatus('Voice session failed to start');
+                });
+        }
+
+
+
+        function endVoiceSession() {
+            isCallActive = false;
+            isListening = false;
+            isSpeaking = false;
+            if (recognition) recognition.stop();
+            synth.cancel();
+            clearTimeout(silenceTimer);
+            updateVoiceUI();
+            updateVoiceStatus('Session ended. Ready to begin a new journey');
+            document.getElementById('transcript').innerHTML = '<em>Your conversation will appear here...</em>';
+        }
+
+        // BUG FIX: `startListening` now creates a dedicated element for the user's turn
+        function startListening() {
+            if (isCallActive && !isListening && !isSpeaking && recognition) {
+                try {
+                    const transcriptDiv = document.getElementById('transcript');
+                    if (transcriptDiv.innerHTML.includes('<em>')) {
+                        transcriptDiv.innerHTML = '';
+                    }
+                    currentUserUtteranceElement = document.createElement('div');
+                    transcriptDiv.appendChild(currentUserUtteranceElement);
+
+                    isListening = true;
+                    recognition.start();
+                    updateVoiceStatus('Listening with compassion...', 'listening');
+                } catch (error) {
+                    console.error('Recognition start error:', error);
+                    isListening = false;
+                    if (error.name === 'InvalidStateError') {
+                        updateVoiceStatus('Listening with compassion...', 'listening');
+                        isListening = true;
+                    } else {
+                        showVoiceError('Unable to start listening. Please try ending and restarting the session.');
+                    }
+                }
+            }
+        }
+
+        function stopListening() {
+            if (isListening && recognition) {
+                recognition.stop();
+            }
+            isListening = false;
+            clearTimeout(silenceTimer);
+        }
+
+        function processVoiceInput(userText) {
+            if (!userText.trim() || !isCallActive || !currentUserUtteranceElement) return;
+
+            stopListening();
+            
+            // Finalize user's message in the transcript and prevent reprocessing
+            currentUserUtteranceElement.innerHTML = `<strong>You:</strong> ${userText}`;
+            currentUserUtteranceElement = null;
+            finalTranscript = ''; // CRITICAL: Reset transcript for the next user utterance
+
+            updateVoiceStatus('Kai is reflecting...', 'thinking');
+            const response = getKaiResponse(userText);
+            const transcript = document.getElementById('transcript');
+            const kaiResponseElement = document.createElement('div');
+            kaiResponseElement.style.cssText = "margin-top:15px; margin-bottom: 10px; color:#7fb069;";
+            kaiResponseElement.innerHTML = `<strong>Kai:</strong> ${response}`;
+            transcript.appendChild(kaiResponseElement);
+            transcript.scrollTop = transcript.scrollHeight;
+
+            speakText(response);
+        }
+
+        function speakText(text, shouldListenAfter = true) {
+            return new Promise((resolve) => {
+                if (!isCallActive && shouldListenAfter) { // Don't speak if call ended, unless it's a test
+                    resolve();
+                    return;
+                }
+                isSpeaking = true;
+                updateVoiceStatus('Kai is speaking...', 'speaking');
+                const utterance = new SpeechSynthesisUtterance(text);
+                // Adjusted for an even lower and softer voice
+                utterance.rate = 0.85; // keep slightly faster for natural flow
+                utterance.pitch = 0.65; // even lower pitch for a softer, deeper tone
+                utterance.volume = 0.92; // slightly softer
+                if (voices.length > 0) {
+                    // Prefer a natural, clear English voice if available
+                    const preferredVoice = voices.find(v => v.name.toLowerCase().includes('natural') && v.lang.startsWith('en')) || voices.find(v => v.lang.startsWith('en'));
+                    if (preferredVoice) utterance.voice = preferredVoice;
+                }
+                utterance.onend = function() {
+                    isSpeaking = false;
+                    if (isCallActive && shouldListenAfter) {
+                        setTimeout(startListening, 500); // This is now the correct place to restart listening
+                    }
+                    resolve();
+                };
+                utterance.onerror = function(error) {
+                    console.error('Speech synthesis error:', error);
+                    isSpeaking = false;
+                    if (isCallActive && shouldListenAfter) {
+                        startListening();
+                    }
+                    resolve();
+                };
+                synth.speak(utterance);
+            });
+        }
+
+        function updateVoiceUI() {
+            const callBtn = document.getElementById('call-btn');
+            const hangUpBtn = document.getElementById('hang-up-btn');
+            if (isCallActive) {
+                callBtn.style.display = 'none';
+                hangUpBtn.style.display = 'inline-block';
+            } else {
+                callBtn.style.display = 'inline-block';
+                hangUpBtn.style.display = 'none';
+            }
+        }
+
+        function updateVoiceStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + (type || '');
+        }
+
+        function showVoiceError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideVoiceError() {
+        document.getElementById('error-message').style.display = 'none';
+        }
+    </script>
+</body>
+
+
+
+<!-- WHAT IT IS -->
+<section style="background: #fff; padding: 50px 0; text-align: center;">
+    <div style="max-width: 700px; margin: 0 auto;">
+        <h2 style="font-size: 2em; font-weight: bold; margin-bottom: 0.5em;">Your Body Knows the Way.</h2>
+        <p style="font-size: 1.1em; color: #444; margin-bottom: 1.5em;">Somatic Compassion is not therapy, but a guided practice in safety and connection for two people.<br><br>Using gentle, intuitive touch and focused awareness, it helps calm the nervous system and release stored stress. Rooted in neuroscience, this method trusts in your body's innate ability to heal.</p>
+    </div>
+</section>
+
+
+
+
+
+
+
+<!-- OUR PURPOSE -->
+<section style="background: #fff; padding: 50px 0; text-align: center;">
+    <div style="max-width: 700px; margin: 0 auto;">
+        <h2 style="font-size: 2em; font-weight: bold; margin-bottom: 0.5em;">Our Purpose</h2>
+        <p style="font-size: 1.1em; color: #444; margin-bottom: 1.5em;">
+            The modern world is loud, and our bodies keep the score. We believe true healing isn’t found in thinking harder, but in feeling safer through compassionate human connection.<br><br>
+            In workshops, we witnessed simple, guided touch create profound moments of release—the feeling of "I'm not alone." We created Kai to share this experience with the world.<br><br>
+            Kai is not the healer; you and your partner are. It is simply a quiet guide for your journey back to your own inner wisdom. It’s time to log off from the noise and log in to your body.
+        </p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background: #222; color: #fff; padding: 30px 0; text-align: center; font-size: 1em;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <div style="margin-bottom: 1em;">
+            <strong>Crucial Disclaimer:</strong><br>
+            Kai is an AI-powered guide and is not a substitute for professional medical or psychological advice. If you are in crisis, please call or text 1737 in New Zealand to connect with a trained counsellor for free.
+        </div>
+        <div style="font-size: 0.95em; color: #bbb;">
+            © 2025 Somatic Compassion | Aotearoa New Zealand | <a href="#" style="color: #7fb069; text-decoration: underline;">Privacy Policy</a>
+        </div>
+    </div>
+</footer>
+</html>
